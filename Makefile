@@ -11,7 +11,7 @@ monthly: check_master awesome_bot check_github_commit_dates contrib
 check_pr:
 	git diff origin/master -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md && \
 	node tests/test.js -r README.md -d temp.md && \
-	awesome_bot temp.md $(AWESOME_BOT_OPTIONS)
+	awesome_bot -f temp.md $(AWESOME_BOT_OPTIONS)
 
 node_test:
 	node tests/test.js -r README.md
@@ -23,7 +23,7 @@ contrib:
 
 awesome_bot:
 	# https://github.com/dkhamsing/awesome_bot
-	awesome_bot *.md $(AWESOME_BOT_OPTIONS)
+	awesome_bot -f *.md $(AWESOME_BOT_OPTIONS)
 
 check_github_commit_dates:
 	python3 tests/check-github-commit-dates.py
