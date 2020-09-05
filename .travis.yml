@@ -14,6 +14,7 @@ before_install:
 script:
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then make checks_pr; fi'
   - 'if [ "$TRAVIS_BRANCH" == "monthly-check" ]; then make monthly; fi'
+  - 'if [ "$TRAVIS_BRANCH" == "master" ]; then make check_master; fi'
 
 notifications:
   email: false

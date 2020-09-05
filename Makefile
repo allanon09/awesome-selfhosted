@@ -1,11 +1,12 @@
 #!/usr/bin/make -f
 SHELL = /bin/bash
 AWESOME_BOT_OPTIONS = '--allow-redirect --skip-save-results --allow 202 --white-list airsonic.github.io/docs/apps'
-all: checks
 
-checks: node_test nolicenselanguage nofullstop longdescriptions syntaxerrors
+all: check_master
 
-monthly: checks awesome_bot check_github_commit_dates contrib
+check_master: node_test nolicenselanguage nofullstop longdescriptions syntaxerrors
+
+monthly: check_master awesome_bot check_github_commit_dates contrib
 
 check_pr:
 	git diff origin/master -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md && \
