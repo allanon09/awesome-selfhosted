@@ -12,7 +12,7 @@ before_install:
   - cd tests && npm install chalk && cd ..
 
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then make checks_pr; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then make check_pr; fi'
   - 'if [ "$TRAVIS_BRANCH" == "monthly-check" ]; then make monthly; fi'
   - 'if [ "$TRAVIS_BRANCH" == "master" ]; then make check_master; fi'
 
