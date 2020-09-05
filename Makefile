@@ -4,7 +4,7 @@ AWESOME_BOT_OPTIONS = --allow-redirect --skip-save-results --allow 202 --white-l
 
 all: check_master
 
-check_master: node_test nolicenselanguage nofullstop longdescriptions syntaxerrors
+check_master: node_test
 
 monthly: check_master awesome_bot check_github_commit_dates contrib
 
@@ -15,28 +15,6 @@ check_pr:
 
 node_test:
 	node tests/test.js -r README.md
-
-
-noexternallink:
-	@echo -e "\nLines with no source/demo/other link:"
-	@sed -n -e '/BEGIN SOFTWARE LIST/,/END SOFTWARE LIST/ p' README.md | egrep '^ *\* ' | egrep --color=always '[a-z\.] `'
-
-nolicenselanguage:
-	@echo -e "\nLines with only 1 or no language/license entry:"
-	@! sed -n -e '/BEGIN SOFTWARE LIST/,/END SOFTWARE LIST/ p' README.md | egrep '^ *\* ' | egrep -v '` `'
-
-nofullstop:
-	@echo -e "\nLines without a full stop after description:"
-	@! sed -n -e '/BEGIN SOFTWARE LIST/,/END SOFTWARE LIST/ p' README.md | egrep '[a-z] \(\['
-	@! sed -n -e '/BEGIN SOFTWARE LIST/,/END SOFTWARE LIST/ p' README.md | egrep '[a-z] `'
-
-longdescriptions:
-	@echo -e "\nDescriptions exceeding 250 chars:"
-	@! sed -n -e '/BEGIN SOFTWARE LIST/,/END SOFTWARE LIST/ p' README.md | egrep --only-matching '\) - [Aa-Zz|.|\(|\)|/| |,|-]*\s\(\[' README.md | grep  '.\{257\}'
-
-syntaxerrors:
-	@echo -e "\nSyntax errors:" 
-	@! sed -n -e '/BEGIN SOFTWARE LIST/,/END SOFTWARE LIST/ p' README.md | egrep  '\)\(|``|\)`'
 
 #################################
 
