@@ -1,10 +1,20 @@
 #!/usr/bin/make -f
 SHELL = /bin/bash
+AWESOME_BOT_OPTIONS = '--allow-redirect --skip-save-results --allow 202 --white-list airsonic.github.io/docs/apps'
 all: checks
 
-checks: nolicenselanguage nofullstop longdescriptions syntaxerrors
+checks: node_test nolicenselanguage nofullstop longdescriptions syntaxerrors
 
 monthly: checks awesome_bot check_github_commit_dates contrib
+
+check_pr:
+	git diff origin/master -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md && \
+	node tests/test.js -r README.md -d temp.md && \
+	awesome_bot temp.md $(AWESOME_BOT_OPTIONS) && \
+
+node_test:
+	node tests/test.js -r README.md
+
 
 noexternallink:
 	@echo -e "\nLines with no source/demo/other link:"
@@ -34,7 +44,7 @@ contrib:
 
 awesome_bot:
 	# https://github.com/dkhamsing/awesome_bot
-	awesome_bot --allow-redirect --allow 202 -f README.md
+	awesome_bot *.md $(AWESOME_BOT_OPTIONS)
 
 check_github_commit_dates:
 	python3 tests/check-github-commit-dates.py

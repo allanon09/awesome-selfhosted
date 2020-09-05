@@ -11,10 +11,8 @@ before_install:
   - cd tests && npm install chalk && cd ..
 
 script:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then git diff origin/master -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md; fi || (exit 0)'
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then node tests/test.js -r README.md -d temp.md; else node tests/test.js -r README.md; fi'
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then awesome_bot temp.md --allow-redirect --skip-save-results --allow 202 --white-list airsonic.github.io/docs/apps; else (exit 0); fi'
-  - 'if [ "$TRAVIS_BRANCH" == "monthly-check" ]; then awesome_bot *.md --allow-redirect --skip-save-results --allow 202 --white-list airsonic.github.io/docs/apps; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then make checks_pr; fi
+  - 'if [ "$TRAVIS_BRANCH" == "monthly-check" ]; then make monthly; fi'
 
 notifications:
   email: false
