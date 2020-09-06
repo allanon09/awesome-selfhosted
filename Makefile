@@ -9,7 +9,7 @@ check_master: node_test
 monthly: check_master awesome_bot check_github_commit_dates contrib
 
 check_pr:
-	git diff origin/master -U0 README.md | grep -Pos "(?<=^\+).*" >> temp.md && \
+	git diff origin/master -U0 README.md | grep --perl-regexp --only-matching "(?<=^\+).*" >> temp.md && \
 	node tests/test.js -r README.md -d temp.md && \
 	awesome_bot -f temp.md $(AWESOME_BOT_OPTIONS)
 
